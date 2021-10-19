@@ -26,6 +26,7 @@ const schema = {
     latitude: Joi.number().required(),
     longitude: Joi.number().required(),
   }).optional(),
+  userId: Joi.number().required().optional(),
 };
 
 const validateCategoryId = (req, res, next) => {
@@ -64,9 +65,11 @@ router.post(
       price: parseFloat(req.body.price),
       categoryId: parseInt(req.body.categoryId),
       description: req.body.description,
+      userId: parseInt(req.body.userId),
     };
     listing.images = req.images.map((fileName) => ({ fileName: fileName }));
     if (req.body.location) listing.location = JSON.parse(req.body.location);
+
     if (req.user) listing.userId = req.user.userId;
 
     store.addListing(listing);
