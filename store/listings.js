@@ -1,3 +1,5 @@
+const users = require("../store/users");
+
 const listings = [
   {
     id: 201,
@@ -109,9 +111,20 @@ const addListing = (listing) => {
   listings.push(listing);
 };
 
-const getListings = () => listings;
+const getListings = () => {
+  return listings.map((listing) => {
+    listing.user = users.getUserById(listing.userId);
 
-const getListing = (id) => listings.find((listing) => listing.id === id);
+    return listing;
+  });
+};
+
+const getListing = (id) => {
+  const listing = listings.find((listing) => listing.id === id);
+  listing.user = users.getUserById(listing.userId);
+
+  return listing;
+};
 
 const filterListings = (predicate) => listings.filter(predicate);
 
